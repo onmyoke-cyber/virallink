@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>@Link4vai</title>
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .locker {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 320px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+    .offer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #f9f9f9;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .offer:hover {
+      background: #e0f7fa;
+      opacity: 1;
+    }
+    .offer img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .offer span {
+      color: #555;
+      font-size: 1rem;
+      flex: 1;
+      line-height: 1.2;
+    }
+    .unlock-message {
+      display: none;
+      margin-top: 1.5rem;
+      font-weight: bold;
+      color: #4caf50;
+    }
+    .get-link-button {
+      margin-top: 1rem;
+      padding: 0.7rem 1.5rem;
+      background-color: grey;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: not-allowed;
+      transition: background 0.3s;
+    }
+    .get-link-button.active {
+      background-color: #4caf50;
+      cursor: pointer;
+    }
+    .get-link-button.active:hover {
+      background-color: #45a049;
+    }
+    .translate-button {
+      margin-top: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      position: absolute;
+      top: 10px;
+      left: 15px;
+    }
+    .translate-button:hover {
+      background-color: #0056b3;
+    }
+    .notice {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="locker">
+  <div class="brand" style="font-size: 1.1rem; color: #007bff; font-weight: 700; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+  🚀 <a href="https://t.me/link4vai" target="_blank" style="color: #007bff; text-decoration: none;">@Link4vai</a>
+</div>
+  <button class="translate-button" id="translateButton" onclick="toggleLanguage()">বাংলা</button>
+  <h2 id="locker-title">Unlock the Content!</h2>
+  <p id="instruction-text">Click on each offer to unlock:</p>
+  <div id="offers">
+    <div class="offer" data-index="0" onclick="handleOfferClick(this)" data-url="https://phoampor.top/4/9225158">
+      <img src="https://img.icons8.com/fluency/48/000000/gift.png" alt="Offer 1">
+      <span class="offer-text">Play & Win on Lucky Spin</span>
+    </div>
+    <div class="offer" data-index="1" onclick="handleOfferClick(this)" data-url="https://phoampor.top/4/9225158">
+      <img src="https://img.icons8.com/fluency/48/000000/money-bag.png" alt="Offer 2">
+      <span class="offer-text">Install & Earn with CashApp Rewards</span>
+    </div>
+    <div class="offer" data-index="2" onclick="handleOfferClick(this)" data-url="https://phoampor.top/4/9225158">
+      <img src="https://img.icons8.com/fluency/48/000000/treasure-chest.png" alt="Offer 3">
+      <span class="offer-text">Take a Quick Survey – Get Paid</span>
+    </div>
+    <div class="offer" data-index="3" onclick="handleOfferClick(this)" data-url="https://phoampor.top/4/9225158">
+      <img src="https://img.icons8.com/fluency/48/000000/prize.png" alt="Offer 4">
+      <span class="offer-text">Try Free Game – Claim Your Bonus</span>
+    </div>
+    <div class="offer" data-index="4" onclick="handleOfferClick(this)" data-url="https://phoampor.top/4/9225158">
+      <img src="https://img.icons8.com/fluency/48/000000/discount.png" alt="Offer 5">
+      <span class="offer-text">Sign Up for Deals – Free Entry Today</span>
+    </div>
+  </div>
+  <div class="notice" id="notice">⏳ Please wait 8 seconds before clicking the next offer!</div>
+  <div class="unlock-message" id="unlockMessage">🎉 All offers clicked! Now get your reward below!</div>
+  <button class="get-link-button" id="getLinkButton" onclick="getLink()">Get Link</button>
+</div>
+
+<script>
+  let clickedOffers = 0;
+  const totalOffers = 5;
+  let lastClickTime = 0;
+  let isBangla = false;
+  const delayTime = 8000;
+  const notice = document.getElementById('notice');
+
+  function handleOfferClick(offer) {
+    const now = Date.now();
+    if (now - lastClickTime < delayTime && clickedOffers !== 0) {
+      showNotice();
+      return;
+    }
+
+    if (!offer.classList.contains('completed')) {
+      offer.classList.add('completed');
+      offer.style.backgroundColor = '#d4edda';
+      clickedOffers++;
+      lastClickTime = now;
+
+      if (clickedOffers === totalOffers) {
+        document.getElementById('unlockMessage').style.display = 'block';
+        document.getElementById('getLinkButton').classList.add('active');
+      }
+    }
+
+    const url = offer.getAttribute('data-url');
+    window.open(url, '_blank');
+  }
+
+  function showNotice() {
+    notice.style.display = 'block';
+    setTimeout(() => {
+      notice.style.display = 'none';
+    }, 3000);
+  }
+
+  function getLink() {
+    const button = document.getElementById('getLinkButton');
+    if (button.classList.contains('active')) {
+      window.open('https://playabledownload.com/1800243', '_blank');
+    }
+  }
+
+  function toggleLanguage() {
+    const title = document.getElementById('locker-title');
+    const instruction = document.getElementById('instruction-text');
+    const unlockMessage = document.getElementById('unlockMessage');
+    const getLinkButton = document.getElementById('getLinkButton');
+    const translateButton = document.getElementById('translateButton');
+    const texts = document.getElementsByClassName('offer-text');
+
+    if (!isBangla) {
+      title.innerText = 'ভিডিও আনলক করুন!';
+      instruction.innerText = 'আনলক করতে প্রতিটি অফার ক্লিক করুন:';
+      texts[0].innerText = 'লাকি স্পিনে খেলে জিতুন';
+      texts[1].innerText = 'ক্যাশঅয়েপ ইনস্টল করে আয় করুন';
+      texts[2].innerText = 'একটি ছোট সার্ভে দিন – টাকা পান';
+      texts[3].innerText = 'গেম খেলুন – বোনাস নিন';
+      texts[4].innerText = 'সাইন আপ করুন – ফ্রি এন্ট্রি';
+      unlockMessage.innerText = '🎉 সব অফার ক্লিক হয়েছে! এখন নিচে আপনার রিওয়ার্ড নিন!';
+      getLinkButton.innerText = 'লিংক পান';
+      translateButton.innerText = 'English';
+    } else {
+      title.innerText = 'Unlock the Content!';
+      instruction.innerText = 'Click on each offer to unlock:';
+      texts[0].innerText = 'Play & Win on Lucky Spin';
+      texts[1].innerText = 'Install & Earn with CashApp Rewards';
+      texts[2].innerText = 'Take a Quick Survey – Get Paid';
+      texts[3].innerText = 'Try Free Game – Claim Your Bonus';
+      texts[4].innerText = 'Sign Up for Deals – Free Entry Today';
+      unlockMessage.innerText = '🎉 All offers clicked! Now get your reward below!';
+      getLinkButton.innerText = 'Get Link';
+      translateButton.innerText = 'বাংলা';
+    }
+    isBangla = !isBangla;
+  }
+</script>
+</body>
+</html>
